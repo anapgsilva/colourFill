@@ -1,6 +1,7 @@
 import React from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom';
-
+import '../../css/style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../Navigation';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
@@ -21,11 +22,12 @@ const Routes = () => (
       <div>
         <Navigation />
         <hr />
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-        <Route path={ROUTES.HOME} component={HomePage} />
-        <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+        <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+        <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
+        <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+        <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+        <Route exact path={ROUTES.HOME} component={HomePage} />
+
       </div>
     </Router>
 

@@ -8,7 +8,7 @@ import {Form} from 'react-bootstrap';
 
 const PasswordForgetPage = () => (
   <div>
-    <h1>PasswordForget</h1>
+    <h1>Reset your password</h1>
     <PasswordForgetForm />
   </div>
 );
@@ -52,6 +52,7 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
     return (
       <Form onSubmit={this.onSubmit}>
+        <label>
         <input
           name="email"
           value={this.state.email}
@@ -59,6 +60,7 @@ class PasswordForgetFormBase extends Component {
           type="text"
           placeholder="Email Address"
         />
+        </label>
         <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>

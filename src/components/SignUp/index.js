@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import {compose} from 'recompose';
 import { withFirebase } from '../Firebase';
-
+import {Form} from 'react-bootstrap';
 import * as ROUTES from '../../constants/routes';
 
 
@@ -71,7 +71,8 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit}>
+        <label>
         <input
           name="username"
           value={username}
@@ -79,6 +80,8 @@ class SignUpFormBase extends Component {
           type="text"
           placeholder="Full Name"
         />
+        </label>
+        <label>
         <input
           name="email"
           value={email}
@@ -86,6 +89,8 @@ class SignUpFormBase extends Component {
           type="text"
           placeholder="Email Address"
         />
+        </label>
+        <label>
         <input
           name="passwordOne"
           value={passwordOne}
@@ -93,6 +98,8 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Password"
         />
+        </label>
+        <label>
         <input
           name="passwordTwo"
           value={passwordTwo}
@@ -100,11 +107,12 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Confirm Password"
         />
+        </label>
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
         {error && <p>{error.message}</p>}
-      </form>
+      </Form>
     );
   }
 }
