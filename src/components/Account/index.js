@@ -1,6 +1,5 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
-import * as ROUTES from '../../constants/routes';
 import PasswordChangeForm from '../PasswordChange';
 
 

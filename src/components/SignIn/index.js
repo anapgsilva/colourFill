@@ -3,14 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
-
+import {Form, Button} from 'react-bootstrap';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 
 const SignInPage = () => (
-  <div>
-    <h1>SignIn</h1>
+  <div className="centred-page">
+    <h1>Welcome to colourFill</h1>
     <SignInForm />
     <PasswordForgetLink />
     <SignUpLink />
@@ -52,7 +52,8 @@ class SignInFormBase extends Component {
     const { email, password, error } = this.state;
     const isInvalid = password === '' || email === '';
     return (
-      <form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit}>
+        <label>
         <input
           name="email"
           value={email}
@@ -60,6 +61,8 @@ class SignInFormBase extends Component {
           type="text"
           placeholder="Email Address"
         />
+        </label>
+        <label>
         <input
           name="password"
           value={password}
@@ -67,11 +70,12 @@ class SignInFormBase extends Component {
           type="password"
           placeholder="Password"
         />
-        <button disabled={isInvalid} type="submit">
+        </label>
+        <Button disabled={isInvalid} type="submit">
           Sign In
-        </button>
+        </Button>
         {error && <p>{error.message}</p>}
-      </form>
+      </Form>
     );
   }
 }

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Routes from './components/Routes';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './components/Firebase';
+import './style.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 

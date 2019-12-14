@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-import {Form} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 
 
 
 const PasswordForgetPage = () => (
-  <div>
+  <div className="centred-page">
     <h1>Reset your password</h1>
     <PasswordForgetForm />
   </div>
@@ -61,9 +61,9 @@ class PasswordForgetFormBase extends Component {
           placeholder="Email Address"
         />
         </label>
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} type="submit">
           Reset My Password
-        </button>
+        </Button>
         {error && <p>{error.message}</p>}
       </Form>
     );

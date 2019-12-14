@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import {compose} from 'recompose';
 import { withFirebase } from '../Firebase';
-import {Form} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 import * as ROUTES from '../../constants/routes';
 
 
 const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
+  <div className="centred-page">
+    <h1>Sign Up</h1>
     <SignUpForm />
   </div>
 );
@@ -108,9 +108,9 @@ class SignUpFormBase extends Component {
           placeholder="Confirm Password"
         />
         </label>
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} type="submit">
           Sign Up
-        </button>
+        </Button>
         {error && <p>{error.message}</p>}
       </Form>
     );
