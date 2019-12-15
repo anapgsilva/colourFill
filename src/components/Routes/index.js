@@ -10,6 +10,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import ResultsPage from '../Results';
+import ActivityPage from '../Activity';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -30,6 +31,8 @@ const Routes = () => (
         <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
         <Route exact path={ROUTES.HOME} component={HomePage} />
         <Route path={ROUTES.RESULTS} component={ResultsPage} />
+        <Route path={ROUTES.ACTIVITY} component={ActivityPage} />
+
 
       </div>
     </Router>

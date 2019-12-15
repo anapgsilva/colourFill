@@ -1,6 +1,8 @@
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
+
 import 'firebase/auth';
 import 'firebase/database';
+const firebase = require('firebase/app');
 
 
 const config = {

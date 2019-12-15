@@ -73,3 +73,82 @@ h1 {
   display: flex;
   justify-content: space-around flex-start;
 }
+
+
+
+#ActivityDIV {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ccc;
+}
+
+.canvas {
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+
+#ActivityDIV .swatchHolder{
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  background-color: #ccc;
+  margin:auto;
+  list-style-type:none;
+  text-align:center;
+  display:inline-block;
+  padding: 15px;
+  border-radius: 0px 0px 20px 20px;
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  /* text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; */
+}
+
+#ActivityDIV .swatchHolder ul {
+  padding: 0;
+}
+
+
+#ActivityDIV .swatchHolder .colorHolder{
+  width: 200px;
+  line-height: 100%;
+  padding: 10px 0px;
+  margin: 0px auto 10px auto;
+  cursor:pointer;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+     -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+          box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+
+.swatchHolder li:not(.colorHolder):hover {
+  /* height:33px;
+  width:33px; */
+  transform: scale(1.2);
+}
+
+
+.swatchHolder li:not(.colorHolder){
+  height:30px;
+  width:30px;
+  margin:4px;
+  display:inline-block;
+  cursor:pointer;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+/* #ActivityDIV svg{
+  width:100%;
+  display:inline-block;
+}
+
+#ActivityDIV svg path{
+  cursor:pointer;
+} */

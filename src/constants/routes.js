@@ -5,3 +5,4 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const RESULTS = '/search/:query';
+export const ACTIVITY = '/activity/:id';
