@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import GetPictures from '../utils.js';
 import {Link} from 'react-router-dom';
+import Search from '../Search';
 import * as ROUTES from '../../constants/routes';
 
 
@@ -26,13 +27,15 @@ class ResultsPage extends Component {
     GetPictures(finalQuery).then( (results) => {
       const pictures = results.value;
       console.log(pictures);
-      //save pics
+      //save state pics
       this.setState({pictures});
     });
   }
 
   useImage(value) {
     console.log(value);
+    //save p object in database
+    //use p.id to redirect to activity/:id
   }
 
   render() {
@@ -44,7 +47,7 @@ class ResultsPage extends Component {
     else {
       images = this.state.pictures.map( p => {
         return (
-          <Link to={ROUTES.ACTIVITY} onClick={this.useImage} value={p.contentUrl}>
+          <Link to={ROUTES.ACTIVITY} onClick={this.useImage} value={p}>
             <img key={p.id} src={p.thumbnailUrl} width="150px" alt={p.name} />
           </Link>
         )
@@ -53,11 +56,14 @@ class ResultsPage extends Component {
 
     return (
       <div>
-        Results for {this.props.match.params.query}.
-        <div className="image-results">
-          {images}
-        </div>
+        <Search />
+        <div>
+          Results for {this.props.match.params.query}.
+          <div className="image-results">
+            {images}
+          </div>
 
+        </div>
       </div>
     )
   }

@@ -85,7 +85,7 @@ h1 {
 
 .canvas {
   margin: 0 auto;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 
@@ -104,7 +104,7 @@ h1 {
   font-size: 20px;
   font-weight: bold;
   letter-spacing: 0.1em;
-  /* text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; */
+  text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
 }
 
 #ActivityDIV .swatchHolder ul {
@@ -113,6 +113,7 @@ h1 {
 
 
 #ActivityDIV .swatchHolder .colorHolder{
+  display: inline-block;
   width: 200px;
   line-height: 100%;
   padding: 10px 0px;
@@ -125,9 +126,16 @@ h1 {
 }
 
 
+.undo-icon {
+  width: 40px;
+  margin-right: 20px;
+  border: 1px solid #000;
+  border-radius: 20px;
+  padding: 5px;
+  background-color: #fff;
+}
+
 .swatchHolder li:not(.colorHolder):hover {
-  /* height:33px;
-  width:33px; */
   transform: scale(1.2);
 }
 
@@ -144,11 +152,29 @@ h1 {
   box-shadow: 0 1px 5px rgba(0,0,0,0.5);
 }
 
-/* #ActivityDIV svg{
-  width:100%;
-  display:inline-block;
+.delete-save {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  width: 100%;
 }
 
-#ActivityDIV svg path{
-  cursor:pointer;
-} */
+.delete-pic {
+  display: flex;
+  margin-left: 100px;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+.delete-pic:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save-pic {
+  display: flex;
+  margin-right: 100px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}

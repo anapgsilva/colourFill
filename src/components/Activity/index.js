@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import { withAuthorization } from '../Session';
 import Palette from './palette.js';
-import image from '../../images/elsa.jpg';
-
+import image from '../../images/mickey.jpg';
+import {Button} from 'react-bootstrap';
 
 
 class ActivityPage extends Component {
-  //adds image in user database (url and events)
-
-  //on click in image, paint/fill image
-
+  //add undo button
+  //add save button - saves url and events
+  //have choice of fill or paint
 
   constructor(){
     super();
@@ -26,6 +25,9 @@ class ActivityPage extends Component {
     this.convertHexToRGB = this.convertHexToRGB.bind(this);
     this.handleFilling = this.handleFilling.bind(this);
     this.floodFill = this.floodFill.bind(this);
+    this.removeEvent = this.removeEvent.bind(this);
+    this.savePicture = this.savePicture.bind(this);
+    this.deletePicture = this.deletePicture.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +42,15 @@ class ActivityPage extends Component {
     };
   }
 
+  savePicture() {
+    //get id from url
+    //request to firebase to do patch picture
+  }
+
+  deletePicture() {
+    //get id from url
+    //request to firebase to do delete picture
+  }
 
   handleColor(colour) {
     this.setState({currentColor: colour});
@@ -80,7 +91,6 @@ class ActivityPage extends Component {
 
 
   floodFill(ctx, x, y, fillColor, range = 1) {
-    console.log('filling');
     //https://stackoverflow.com/questions/2106995/how-can-i-perform-flood-fill-with-html-canvas
     const getPixel = (imageData, x, y) => {
       // console.log("getting the pixel");
@@ -102,12 +112,13 @@ class ActivityPage extends Component {
     }
 
     const colorsMatch = (a, b, rangeSq) => {
-      // console.log('chceking if colors match');
-      const dr = a[0] - b[0];
-      const dg = a[1] - b[1];
-      const db = a[2] - b[2];
-      const da = a[3] - b[3];
-      return dr * dr + dg * dg + db * db + da * da < rangeSq;
+      if (a !== [ 0, 0, 0, 0]) {
+        const dr = a[0] - b[0];
+        const dg = a[1] - b[1];
+        const db = a[2] - b[2];
+        const da = a[3] - b[3];
+        return dr * dr + dg * dg + db * db + da * da < rangeSq;
+      }
     }
 
 
@@ -150,6 +161,11 @@ class ActivityPage extends Component {
     }
   }
 
+  removeEvent() {
+    let events = this.state.events;
+    events.pop();
+    this.setState({events})
+  }
 
   render() {
     if (this.state.imageLoaded) {
@@ -164,7 +180,7 @@ class ActivityPage extends Component {
 
       this.state.events.forEach( e => {
         if (e.type === 'fill') {
-          this.floodFill(this.ctx, e.x, e.y, e.color, 25);
+          this.floodFill(this.ctx, e.x, e.y, e.color, 128);
         }
       });
 
@@ -172,8 +188,18 @@ class ActivityPage extends Component {
 
     return (
       <div id='ActivityDIV'>
-        <Palette onSelectColor={this.handleColor} />
+        <Palette onSelectColor={this.handleColor} onUndoMove={this.removeEvent} />
+
         <canvas className="canvas" ref={this.myRef} onClick={this.handleFilling} />
+
+        <div className="delete-save">
+          <div className="delete-pic" onClick={this.deletePicture}>
+            Delete
+          </div>
+          <Button className="save-pic" onClick={this.savePicture}>
+            Save
+          </Button>
+        </div>
       </div>
     )
   }
@@ -188,43 +214,44 @@ export default withAuthorization(condition)(ActivityPage);
 
 
 // PAINT BRUSH
+const paintFill = function(x, y, color) {
 
-//call the pixel data
-// let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  //call the pixel data
+  let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  let pixels = imageData.data;
 
-// let pixels = imageData.data;
-// const pxIndex = (x-1)*4 + (y-1) * this.canvas.width*4;
-//
-// pixels[pxIndex] = color[0];
-// pixels[pxIndex+1] = color[1];
-// pixels[pxIndex+2] = color[2];
-// pixels[pxIndex+3] = color[3];
+  const pxIndex = ((x-1) + (y-1)*this.canvas.width)*4;
 
-// let offset = 50;
+  pixels[pxIndex] = color[0];
+  pixels[pxIndex+1] = color[1];
+  pixels[pxIndex+2] = color[2];
+  pixels[pxIndex+3] = color[3];
 
-// for (let i = x-offset; i < x+offset; i++) {
-//   for (let j = y-offset; j < y+offset; j++) {
-//
-//     this.ctx.beginPath();
-//     let newX = 25 + j * 50; // x coordinate
-//     let newY = 25 + i * 50; // y coordinate
-//     let radius = 20; // Arc radius
-//     let startAngle = 0; // Starting point on circle
-//     let endAngle = 2* Math.PI; // End point on circle
-//     // let anticlockwise = i % 2 !== 0; // clockwise or anticlockwise
-//
-//     this.ctx.arc(newX, newY, radius, startAngle, endAngle);
-//
-//     // this.ctx.fill();
-//
-//     //
-//     if (i > 1) {
-//       this.ctx.fill();
-//     } else {
-//       this.ctx.stroke();
-//     }
-//   }
-// }
-//
-// this.ctx.putImageData(imageData, 0, 0);
-//}
+  let offset = 50;
+
+  for (let i = x-offset; i < x+offset; i++) {
+    for (let j = y-offset; j < y+offset; j++) {
+
+      this.ctx.beginPath();
+      let newX = 25 + j * 50; // x coordinate
+      let newY = 25 + i * 50; // y coordinate
+      let radius = 20; // Arc radius
+      let startAngle = 0; // Starting point on circle
+      let endAngle = 2* Math.PI; // End point on circle
+      // let anticlockwise = i % 2 !== 0; // clockwise or anticlockwise
+
+      this.ctx.arc(newX, newY, radius, startAngle, endAngle);
+
+      // this.ctx.fill();
+
+      //
+      if (i > 1) {
+        this.ctx.fill();
+      } else {
+        this.ctx.stroke();
+      }
+    }
+  }
+
+  this.ctx.putImageData(imageData, 0, 0);
+}
