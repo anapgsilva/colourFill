@@ -47,36 +47,54 @@ class Firebase {
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
 
-  async doCreatePicture(picture, uid) {
-    const res = await axios.put(this.db.ref('pictures'), {
-      user_id: uid,
-      data: picture
-    });
-    return res.data;
+  async doCreatePicture(picture) {
+    const uid = this.auth.currentUser.uid;
+    const pictureData = picture;
+
+    const newPictureKey = this.db.ref.child('pictures').push().key;
+
+    const updates = {};
+    updates['/pictures/'+newPictureKey] = pictureData;
+    updates['/user-pictures/'+uid+'/'+newPictureKey] = pictureData;
+
+    return newPictureKey;
   }
 
-  async doSavePicture(id, events) {
+  async doSavePicture(key, events) {
+    const uid = this.auth.currentUser.uid;
 
-    const res = await axios.patch(this.db.ref(`pictures/${id}`), {
+    const pictureData = {
       events: events
-    });
-    return res.data;
+    }
+
+    const updates = {};
+    updates['/pictures/'+key] = pictureData;
+    updates['/user-pictures/'+uid+'/'+key] = pictureData;
+
+    return key;
   }
 
-  async doDeletePicture(id) {
+  async doDeletePicture(key) {
+    const uid = this.auth.currentUser.uid;
 
-    const res = await axios.delete(this.db.ref(`pictures/${id}`));
-    return res.data;
+    const remove = {};
+    remove('/pictures/'+key);
+    remove('/user-pictures/'+uid+'/'+key);
+    return;
   }
 
-  async doGetPicture(id) {
-    const res = await axios.get(this.db.ref(`pictures/${id}`));
-    return res.data;
+  async doGetPicture(key) {
+    const uid = this.auth.currentUser.uid;
+
+    const picture = this.db.ref('/user-pictures/'+uid+'/'+key);
+    return picture;
   }
 
   async doGetPictures() {
-    const res = await axios.get(this.db.ref('pictures'));
-    return res.data;
+    const uid = this.auth.currentUser.uid;
+
+    const pictures = this.db.ref('/user-pictures/'+uid);
+    return pictures;
   }
 }
 

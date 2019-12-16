@@ -23,7 +23,7 @@ class Gallery extends Component {
     this.props.firebase
       .doGetPictures()
       .then((res) => {
-        this.setState({pictures: res.data})
+        this.setState({pictures: res})
       })
       .catch(error => {
         window.alert({ error });
@@ -38,17 +38,15 @@ class Gallery extends Component {
   render() {
     let images;
 
-    if (this.state.pictures === null) {
-       images = "Loading";
-    }
-    else {
-      images = this.state.pictures.map( p => {
+    if (this.state.pictures.length > 0) {
+      const imagesArray = this.state.pictures;
+      images = imagesArray.map( p => {
         return (
           <Link to={ROUTES.ACTIVITY} onClick={this.showPicture} value={p}>
-            <img key={p.id} src={p.thumbnailUrl} width="150px" alt={p.name} />
+            <img key={p.key} src={p.thumbnailUrl} width="150px" alt={p.name} />
           </Link>
         )
-      })
+      });
     }
 
     return (

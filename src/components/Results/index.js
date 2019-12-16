@@ -38,9 +38,9 @@ class ResultsPage extends Component {
     //save p object in database
     this.props.firebase
       .doCreatePicture(value)
-      .then( () => {
+      .then( (res) => {
         //use p.id to redirect to activity/:id
-        this.props.history.push('/activity/' + value.id);
+        this.props.history.push('/activity/' + res.key);
       })
       .catch( error => {
         window.alert({error});
