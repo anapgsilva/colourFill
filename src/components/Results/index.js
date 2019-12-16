@@ -57,8 +57,9 @@ class ResultsPage extends Component {
     return (
       <div>
         <Search />
-        <div>
-          Results for {this.props.match.params.query}.
+        <hr />
+        <div className="results">
+          <h1>Choose A {this.props.match.params.query.toUpperCase()} Picture to Colour</h1>
           <div className="image-results">
             {images}
           </div>
