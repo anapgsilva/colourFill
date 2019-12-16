@@ -17,6 +17,7 @@ class Palette extends Component {
   //on click in a colour, changes bg color of colorHolder
   swatchClick(colour){
     this.setState({chosenColor: colour });
+    this.props.onSelectColor(colour);
   }
 
 
@@ -47,34 +48,6 @@ class Palette extends Component {
 export default Palette;
 
 
-
-
-  // let mainHolder, colorHolder;
-  // let btnRandom, btnClear, btnDownloadSVG, btnDownloadPNG
-  // let svgObject, svgOutline, svgColor;
-  // let swatchUp, swatchDown;
-  // let fillSpeed = 0.15;
-  //
-  // var closeOffset;
-  //
-  //
-  //
-  // function colorMe() {
-  //   TweenMax.to(this, fillSpeed, { fill: chosenColor });
-  // }
-
-
-//   function svgRandom() {
-//     $(svgColor).each(function(){
-//       var randomNum = Math.floor((Math.random() * colors.length) + 1);
-//       TweenMax.to(this, fillSpeed, { fill: colors[randomNum] });
-//     })
-//   }
-//   function svgClear() {
-//     $(svgColor).each(function(){
-//       TweenMax.to(this, fillSpeed, { fill: "#FFF" });
-//     })
-//   }
 //   function svgDownloadSVG() {
 //    var svgInfo = $("<div/>").append($(svgObject).clone()).html();
 //    $(this).attr({
@@ -100,27 +73,3 @@ export default Palette;
 //       $('.swatchHolder').addClass('gray')
 //     });
 //   }
-//
-//   $.fn.btnRandom    = function() {
-//     btnRandom = this
-//     $(btnRandom).on('click', svgRandom)
-//   }
-//   $.fn.btnClear     = function() {
-//     btnClear = this
-//     $(btnClear).on('click', svgClear)
-//   }
-//   $.fn.btnDownload  = function(type) {
-//     if(type == 'PNG'){
-//       btnDownloadPNG = this
-//       $(this).on('mouseenter', svgDownloadPNG)
-//     } else {
-//       btnDownloadSVG = this
-//       $(this).on('mouseenter', svgDownloadSVG)
-//     }
-//   }
-// }( jQuery ));
-//
-// $('#ActivityDIV'   ).makeSVGcolor('https://s3-us-west-2.amazonaws.com/s.cdpn.io/40041/cheshire.svg')
-// $('#btnRandom'     ).btnRandom()
-// $('#btnClear'      ).btnClear()
-// $('#btnDownloadSVG').btnDownload()
