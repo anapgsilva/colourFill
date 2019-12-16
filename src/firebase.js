@@ -2,6 +2,8 @@
 
 import 'firebase/auth';
 import 'firebase/database';
+import axios from 'axios';
+
 const firebase = require('firebase/app');
 
 
@@ -45,6 +47,37 @@ class Firebase {
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
 
+  async doCreatePicture(picture, uid) {
+    const res = await axios.put(this.db.ref('pictures'), {
+      user_id: uid,
+      data: picture
+    });
+    return res.data;
+  }
+
+  async doSavePicture(id, events) {
+
+    const res = await axios.patch(this.db.ref(`pictures/${id}`), {
+      events: events
+    });
+    return res.data;
+  }
+
+  async doDeletePicture(id) {
+
+    const res = await axios.delete(this.db.ref(`pictures/${id}`));
+    return res.data;
+  }
+
+  async doGetPicture(id) {
+    const res = await axios.get(this.db.ref(`pictures/${id}`));
+    return res.data;
+  }
+
+  async doGetPictures() {
+    const res = await axios.get(this.db.ref('pictures'));
+    return res.data;
+  }
 }
 
 

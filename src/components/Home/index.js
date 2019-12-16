@@ -1,18 +1,19 @@
 import React from 'react';
 import { withAuthorization } from '../Session';
 import Search from '../Search';
+import Gallery from './gallery.js';
 
+const HomePage = () => {
 
-const HomePage = () => (
+  return (
+    <div>
+      <Search />
+      <hr />
+      <Gallery />
+    </div>
+  )
 
-  <div>
-    <Search />
-    <hr />
-    <h1>My Colouring Pictures</h1>
-    <p>The Home Page is accessible by every signed in user.</p>
-
-  </div>
-);
+};
 
 const condition = authUser => !!authUser;
 

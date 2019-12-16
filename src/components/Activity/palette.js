@@ -52,30 +52,3 @@ class Palette extends Component {
 
 
 export default Palette;
-
-
-//   function svgDownloadSVG() {
-//    var svgInfo = $("<div/>").append($(svgObject).clone()).html();
-//    $(this).attr({
-//             href:"data:image/svg+xml;utf8,"+svgInfo,
-//             download:'coloringBook.svg',
-//             target:"_blank"
-//     });
-//   }
-//   function svgDownloadPNG() {
-//    // Future expantion:
-//    // Look at https://bl.ocks.org/biovisualize/8187844
-//   }
-//
-//
-//   $.fn.makeSVGcolor = function(svgURL) {
-//     mainHolder = this
-//     $( this ).load(svgURL, function() {
-//       svgObject  = $('svg', this)
-//       svgColor   = $('g:nth-child(2)', svgObject).children()
-//       svgOutline = $('g:nth-child(1)', svgObject).children()
-//       $(svgColor).on('click', colorMe)
-//       $(mainHolder).makeSwatches()
-//       $('.swatchHolder').addClass('gray')
-//     });
-//   }

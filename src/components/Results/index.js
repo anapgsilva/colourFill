@@ -3,6 +3,7 @@ import GetPictures from '../utils.js';
 import {Link} from 'react-router-dom';
 import Search from '../Search';
 import * as ROUTES from '../../constants/routes';
+import { withFirebase } from '../Firebase';
 
 
 
@@ -31,11 +32,19 @@ class ResultsPage extends Component {
       this.setState({pictures});
     });
   }
-
-  useImage(value) {
+/////////////////////////NEEDS CHECKING///////////////////
+  async useImage(value) {
     console.log(value);
     //save p object in database
-    //use p.id to redirect to activity/:id
+    this.props.firebase
+      .doCreatePicture(value)
+      .then( () => {
+        //use p.id to redirect to activity/:id
+        this.props.history.push('/activity/' + value.id);
+      })
+      .catch( error => {
+        window.alert({error});
+      })
   }
 
   render() {

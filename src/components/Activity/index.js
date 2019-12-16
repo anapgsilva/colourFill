@@ -3,6 +3,8 @@ import { withAuthorization } from '../Session';
 import Palette from './palette.js';
 import image from '../../images/mickey.jpg';
 import {Button} from 'react-bootstrap';
+import { withFirebase } from '../Firebase';
+import * as ROUTES from '../../constants/routes';
 
 
 class ActivityPage extends Component {
@@ -33,7 +35,6 @@ class ActivityPage extends Component {
   componentDidMount() {
 
     this.img = new Image();
-
     // this.img.src = "https://i.pinimg.com/originals/21/07/c6/2107c650f8be35fb218ad7941d565d41.jpg";
     this.img.src = image;
 
@@ -42,14 +43,32 @@ class ActivityPage extends Component {
     };
   }
 
-  savePicture() {
+  async savePicture(props) {
     //get id from url
+    const id = props.params.match.id;
     //request to firebase to do patch picture
+    this.props.firebase
+      .doSavePicture(id, this.state.events)
+      .then(() => {
+        window.alert('Picture saved successfully!', 'success');
+      })
+      .catch(error => {
+        window.alert({ error });
+      });
   }
 
-  deletePicture() {
+  deletePicture(props) {
     //get id from url
+    const id = props.params.match.id;
     //request to firebase to do delete picture
+    this.props.firebase
+      .doDeletePicture(id)
+      .then(() => {
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch(error => {
+        window.alert({ error });
+      });
   }
 
   handleColor(colour) {
@@ -214,7 +233,7 @@ export default withAuthorization(condition)(ActivityPage);
 
 
 // PAINT BRUSH
-const paintFill = function(x, y, color) {
+const brushFill = function(x, y, color) {
 
   //call the pixel data
   let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
