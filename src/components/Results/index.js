@@ -3,19 +3,20 @@ import GetPictures from '../utils.js';
 import {Link} from 'react-router-dom';
 import Search from '../Search';
 import * as ROUTES from '../../constants/routes';
+import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 
 
-
-class ResultsPage extends Component {
+class Results extends Component {
 
   constructor(props) {
-    super();
+    super(props);
     this.state = {
-      query: null,
-      pictures: null
+      query: '',
+      pictures: [],
+      imagesLoaded: false
     }
-    this.useImage = this.useImage.bind(this);
+    this.showImage = this.showImage.bind(this);
   }
 
   componentDidMount() {
@@ -24,43 +25,32 @@ class ResultsPage extends Component {
 
     const finalQuery = query + " black and white";
 
-    //do DB request for query
-    GetPictures(finalQuery).then( (results) => {
-      const pictures = results.value;
-      console.log(pictures);
+    // do DB request for query
+    GetPictures(finalQuery).then( (result) => {
       //save state pics
-      this.setState({pictures});
+      this.setState({pictures: result.value, imagesLoaded: true});
     });
   }
-/////////////////////////NEEDS CHECKING///////////////////
-  async useImage(value) {
-    console.log(value);
+
+
+  async showImage(picture) {
     //save p object in database
-    this.props.firebase
-      .doCreatePicture(value)
-      .then( (res) => {
-        //use p.id to redirect to activity/:id
-        this.props.history.push('/activity/' + res.key);
-      })
-      .catch( error => {
-        window.alert({error});
-      })
+    await this.props.firebase.doCreatePicture(picture);
   }
 
   render() {
     let images;
 
-    if (this.state.pictures === null) {
-       images = "Loading";
-    }
-    else {
+    if (this.state.imagesLoaded) {
       images = this.state.pictures.map( p => {
         return (
-          <Link to={ROUTES.ACTIVITY} onClick={this.useImage} value={p}>
-            <img key={p.id} src={p.thumbnailUrl} width="150px" alt={p.name} />
+          <Link to={ROUTES.ACTIVITY} key={p.imageId}>
+            <img src={p.thumbnailUrl} width="150px" alt={p.name} onClick={() => this.showImage(p)} />
           </Link>
         )
       })
+    } else {
+      images = "Loading images..."
     }
 
     return (
@@ -79,5 +69,7 @@ class ResultsPage extends Component {
   }
 
 }
+
+const ResultsPage = compose(withFirebase)(Results);
 
 export default ResultsPage;

@@ -2,7 +2,6 @@
 
 import 'firebase/auth';
 import 'firebase/database';
-import axios from 'axios';
 
 const firebase = require('firebase/app');
 
@@ -38,7 +37,8 @@ class Firebase {
 
   doSignOut = () => this.auth.signOut();
 
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+  doPasswordReset = email =>
+    this.auth.sendPasswordResetEmail(email);
 
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
@@ -47,21 +47,21 @@ class Firebase {
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
 
-  async doCreatePicture(picture) {
+  doCreatePicture = (picture) => {
     const uid = this.auth.currentUser.uid;
     const pictureData = picture;
-
-    const newPictureKey = this.db.ref.child('pictures').push().key;
+    const newPictureKey = this.db.ref().child('pictures').push().key;
 
     const updates = {};
     updates['/pictures/'+newPictureKey] = pictureData;
     updates['/user-pictures/'+uid+'/'+newPictureKey] = pictureData;
 
-    return newPictureKey;
+    this.db.ref().update(updates);
   }
 
-  async doSavePicture(key, events) {
+  doSavePicture = (key, events, callback) => {
     const uid = this.auth.currentUser.uid;
+    console.log("uid", uid);
 
     const pictureData = {
       events: events
@@ -70,31 +70,37 @@ class Firebase {
     const updates = {};
     updates['/pictures/'+key] = pictureData;
     updates['/user-pictures/'+uid+'/'+key] = pictureData;
-
-    return key;
+    const result = this.db.ref().update(updates);
+    callback(result);
   }
 
-  async doDeletePicture(key) {
+  doDeletePicture = (key, callback) => {
     const uid = this.auth.currentUser.uid;
 
     const remove = {};
     remove('/pictures/'+key);
     remove('/user-pictures/'+uid+'/'+key);
-    return;
+    const result = this.db.ref().remove(remove);
+    callback(result);
   }
 
-  async doGetPicture(key) {
+  doGetPicture = (key, callback) => {
     const uid = this.auth.currentUser.uid;
 
     const picture = this.db.ref('/user-pictures/'+uid+'/'+key);
-    return picture;
+    picture.on('value', function(snapshot) {
+      let result = snapshot.val();
+      callback(result);
+    })
   }
 
-  async doGetPictures() {
-    const uid = this.auth.currentUser.uid;
-
-    const pictures = this.db.ref('/user-pictures/'+uid);
-    return pictures;
+  doGetPictures = (callback) => {
+    let result = [];
+    const pictures = this.db.ref('/pictures');
+    pictures.on('value', function(snapshot){
+      result.push(snapshot.val());
+      callback(result);
+    })
   }
 }
 

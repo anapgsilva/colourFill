@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import { withAuthorization } from '../Session';
 import * as ROUTES from '../../constants/routes';
-import { withFirebase } from '../Firebase';
 import {Link} from 'react-router-dom';
+import { compose } from 'recompose';
+import { withFirebase } from '../Firebase';
 
 
 class Gallery extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      pictures: []
+      pictures: {},
+      picturesLoaded: false
     }
     this.showPicture = this.showPicture.bind(this);
     this.fillGallery = this.fillGallery.bind(this);
@@ -19,42 +21,48 @@ class Gallery extends Component {
     this.fillGallery();
   }
 
-  fillGallery(props) {
-    this.props.firebase
-      .doGetPictures()
-      .then((res) => {
-        this.setState({pictures: res})
-      })
-      .catch(error => {
-        window.alert({ error });
-      });
+  async fillGallery() {
+    await this.props.firebase
+    .doGetPictures((pictures) => {
+      this.setState({pictures: pictures[0], picturesLoaded: true});
+    })
   }
 
-  showPicture(event) {
-    const id = event.target.value.id;
-    this.props.history.push(`/activity/${id}`);
+  showPicture(key) {
+    console.log('key', key);
+    this.props.history.push(`/activity/${key}`);
   }
 
   render() {
-    let images;
+    let pictures;
 
-    if (this.state.pictures.length > 0) {
-      const imagesArray = this.state.pictures;
-      images = imagesArray.map( p => {
+    if (this.state.picturesLoaded === false) {
+      pictures = "Loading pictures...";
+    } else {
+      let images = this.state.pictures;
+      console.log(images);
+
+      pictures = Object.entries(images).map( picArray => {
+        const key = picArray[0];
+        const pic = picArray[1];
         return (
-          <Link to={ROUTES.ACTIVITY} onClick={this.showPicture} value={p}>
-            <img key={p.key} src={p.thumbnailUrl} width="150px" alt={p.name} />
+          <Link to={ROUTES.ACTIVITY} key={key} onClick={() => this.showPicture(key)}>
+            <h4>{pic.name}</h4>
+            <img src={pic.thumbnailUrl} width="150px" alt={pic.name} />
           </Link>
         )
       });
     }
 
+
     return (
       <div>
-        {this.state.pictures.length > 0 ?
+        {pictures !== undefined ?
         <div>
           <h1>My Colouring Pictures</h1>
-          images
+          <div className="image-results">
+            {pictures}
+          </div>
         </div> :
         <h1>You have no pictures saved.</h1>}
       </div>
@@ -64,4 +72,6 @@ class Gallery extends Component {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(Gallery);
+const GalleryPage = compose(withFirebase)(Gallery);
+
+export default withAuthorization(condition)(GalleryPage);

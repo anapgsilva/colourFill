@@ -1,28 +1,30 @@
 import React, {Component} from 'react';
 import { withAuthorization } from '../Session';
 import Palette from './palette.js';
-import image from '../../images/mickey.jpg';
+// import image from '../../images/elsa.jpg';
 import {Button} from 'react-bootstrap';
-import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { compose } from 'recompose';
+import { withFirebase } from '../Firebase';
 
 
-class ActivityPage extends Component {
-  //add undo button
+class Activity extends Component {
   //add save button - saves url and events
   //have choice of fill or paint
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     // Refs info from: https://reactjs.org/docs/refs-and-the-dom.html
     this.myRef = React.createRef();
 
     this.state = {
       imageLoaded: false,
+      picture: {},
       currentColor: "",
       events: []
     }
 
+    this.getPicture = this.getPicture.bind(this);
     this.handleColor = this.handleColor.bind(this);
     this.convertHexToRGB = this.convertHexToRGB.bind(this);
     this.handleFilling = this.handleFilling.bind(this);
@@ -33,42 +35,54 @@ class ActivityPage extends Component {
   }
 
   componentDidMount() {
+    //get image from DB using key
+    const key = this.props.match.params.id;
+    this.getPicture(key);
 
     this.img = new Image();
-    // this.img.src = "https://i.pinimg.com/originals/21/07/c6/2107c650f8be35fb218ad7941d565d41.jpg";
-    this.img.src = image;
-
+    this.img.src = this.state.picture.contentUrl;
+    console.log(this.img.src);
     this.img.onload = () => {
         this.setState({imageLoaded: true});
     };
   }
 
-  async savePicture(props) {
-    //get id from url
-    const id = props.params.match.id;
+  async getPicture(key) {
     //request to firebase to do patch picture
-    this.props.firebase
-      .doSavePicture(id, this.state.events)
-      .then(() => {
-        window.alert('Picture saved successfully!', 'success');
-      })
-      .catch(error => {
-        window.alert({ error });
-      });
+    await this.props.firebase
+      .doGetPicture( key, (picture) => {
+      this.setState({picture});
+
+    });
   }
 
-  deletePicture(props) {
+  async savePicture() {
     //get id from url
-    const id = props.params.match.id;
+    const key = this.props.match.params.id;
+    //request to firebase to do patch picture
+    await this.props.firebase.doSavePicture(key, this.state.events, (result) => {
+      console.log(result);
+
+      if (result) {
+        window.alert('Picture saved successfully!', 'success');
+      } else {
+        window.alert("Put here the error from DB");
+      }
+    })
+
+  }
+
+  async deletePicture() {
+    //get id from url
+    const key = this.props.match.params.id;
     //request to firebase to do delete picture
-    this.props.firebase
-      .doDeletePicture(id)
-      .then(() => {
-        this.props.history.push(ROUTES.HOME);
-      })
-      .catch(error => {
-        window.alert({ error });
-      });
+    const result = await this.props.firebase.doDeletePicture(key)
+
+    if(result) {
+      this.props.history.push(ROUTES.HOME);
+    } else {
+      window.alert("Put here the message from DB");
+    }
   }
 
   handleColor(colour) {
@@ -228,49 +242,52 @@ class ActivityPage extends Component {
 
 const condition = authUser => !!authUser;
 
+const ActivityPage = compose(withFirebase)(Activity);
+
+
 export default withAuthorization(condition)(ActivityPage);
 
 
 
 // PAINT BRUSH
-const brushFill = function(x, y, color) {
-
-  //call the pixel data
-  let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-  let pixels = imageData.data;
-
-  const pxIndex = ((x-1) + (y-1)*this.canvas.width)*4;
-
-  pixels[pxIndex] = color[0];
-  pixels[pxIndex+1] = color[1];
-  pixels[pxIndex+2] = color[2];
-  pixels[pxIndex+3] = color[3];
-
-  let offset = 50;
-
-  for (let i = x-offset; i < x+offset; i++) {
-    for (let j = y-offset; j < y+offset; j++) {
-
-      this.ctx.beginPath();
-      let newX = 25 + j * 50; // x coordinate
-      let newY = 25 + i * 50; // y coordinate
-      let radius = 20; // Arc radius
-      let startAngle = 0; // Starting point on circle
-      let endAngle = 2* Math.PI; // End point on circle
-      // let anticlockwise = i % 2 !== 0; // clockwise or anticlockwise
-
-      this.ctx.arc(newX, newY, radius, startAngle, endAngle);
-
-      // this.ctx.fill();
-
-      //
-      if (i > 1) {
-        this.ctx.fill();
-      } else {
-        this.ctx.stroke();
-      }
-    }
-  }
-
-  this.ctx.putImageData(imageData, 0, 0);
-}
+// const brushFill = function(x, y, color) {
+//
+//   //call the pixel data
+//   let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+//   let pixels = imageData.data;
+//
+//   const pxIndex = ((x-1) + (y-1)*this.canvas.width)*4;
+//
+//   pixels[pxIndex] = color[0];
+//   pixels[pxIndex+1] = color[1];
+//   pixels[pxIndex+2] = color[2];
+//   pixels[pxIndex+3] = color[3];
+//
+//   let offset = 50;
+//
+//   for (let i = x-offset; i < x+offset; i++) {
+//     for (let j = y-offset; j < y+offset; j++) {
+//
+//       this.ctx.beginPath();
+//       let newX = 25 + j * 50; // x coordinate
+//       let newY = 25 + i * 50; // y coordinate
+//       let radius = 20; // Arc radius
+//       let startAngle = 0; // Starting point on circle
+//       let endAngle = 2* Math.PI; // End point on circle
+//       // let anticlockwise = i % 2 !== 0; // clockwise or anticlockwise
+//
+//       this.ctx.arc(newX, newY, radius, startAngle, endAngle);
+//
+//       // this.ctx.fill();
+//
+//       //
+//       if (i > 1) {
+//         this.ctx.fill();
+//       } else {
+//         this.ctx.stroke();
+//       }
+//     }
+//   }
+//
+//   this.ctx.putImageData(imageData, 0, 0);
+// }
