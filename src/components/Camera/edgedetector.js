@@ -19,14 +19,12 @@ function EdgeDetector() {
   this.pointerColor = 'rgba(255,0,0,1)';
 
 
-  this.init = function(myRef){
+  this.init = function(myRef1, myRef2){
     // Build the canvas
-    this.myRef = myRef;
-
-    this.canvasElement = this.myRef.current;
+    this.canvasElement = myRef1.current;
     this.canvasElement.width = this.imgElement.width;
     this.canvasElement.height = this.imgElement.height;
-    this.rawCanvas = this.myRef.current;
+    this.rawCanvas = myRef2.current;
     this.rawCanvas.width = this.imgElement.width;
     this.rawCanvas.height = this.imgElement.height;
 
@@ -46,16 +44,18 @@ function EdgeDetector() {
 
   this.copyImage = function(){
     this.rawctx.clearRect(0,0,this.ctxDimensions.width,this.ctxDimensions.height);
-    console.log(this.imgElement.src);
-    this.ctx.drawImage(this.imgElement,0,0,this.ctxDimensions.width,this.ctxDimensions.height);
+
+    this.ctx.drawImage(this.imgElement,0,0,this.ctxDimensions.width,this.ctxDimensions.height)
+
     //Grab the Pixel Data, and prepare it for use
     this.pixelData = this.ctx.getImageData(0,0,this.ctxDimensions.width, this.ctxDimensions.height);
-    console.log("pixels", this.pixelData.data);
 
     return this.coreLoop();
   };
 
+
   this.coreLoop = function(){
+
     let x = 0;
     let y = 0;
 
@@ -64,8 +64,8 @@ function EdgeDetector() {
     let right = undefined;
     let bottom = undefined;
 
-    for(y=0;y<this.pixelData.height;y++){
-        for(x=0;x<this.pixelData.width;x++){
+    for(y = 0; y < this.pixelData.height; y++){
+        for(x = 0; x < this.pixelData.width; x++){
             // get this pixel's data
             // currently, we're looking at the blue channel only.
             // Since this is a B/W photo, all color channels are the same.
@@ -109,32 +109,23 @@ function EdgeDetector() {
             }
         }
     }
-    return "It should work now"
   };
 
   this.plotPoint = function(x,y){
-      console.log("I see this");
-      console.log("ctx", this.ctx);
       this.ctx.beginPath();
       this.ctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
-      this.ctx.fillStyle = 'green';
-      this.ctx.fill();
-      this.ctx.beginPath();
-      // this.ctx.stroke();
-      console.log("ctx", this.ctx);
-
+      this.ctx.closePath();
+      this.rawctx.fill();
+      this.ctx.stroke();
 
       // Copy onto the raw canvas
       // this is probably the most useful application of this,
       // as you would then have raw data of the edges that can be used.
-      console.log("rawctx", this.rawctx);
-
       this.rawctx.beginPath();
       this.rawctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
-      this.rawctx.fillStyle = 'green';
-      this.rawctx.fill();
-      this.rawctx.beginPath();
-      console.log("rawctx", this.rawctx);
+      this.ctx.closePath();
+      // this.rawctx.fill();
+      this.ctx.stroke();
 
   };
 }

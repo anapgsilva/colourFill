@@ -8,7 +8,8 @@ class CameraPage extends Component {
   constructor() {
     super();
 
-    this.myRef = React.createRef();
+    this.myRef1 = React.createRef();
+    this.myRef2 = React.createRef();
 
     this.state = {
       imageLoaded: false
@@ -29,24 +30,26 @@ class CameraPage extends Component {
     // Run at start
     this.tracing = new EdgeDetector();
     this.tracing.imgElement = img;
-    this.tracing.threshold = 60;
-    const result = this.tracing.init(this.myRef);
-    console.log(result);
+    this.tracing.threshold = 65;
 
-    if (result) {
+    this.tracing.imgElement.onload = () => {
+      this.tracing.init(this.myRef1, this.myRef2);
       this.setState({imageLoaded: true});
     }
   }
 
 
   render() {
-    console.log(this.myRef);
     return (
-      <div className="camera">
-        <Camera
-          onTakePhoto = {(dataUri) => this.handleTakePhoto(dataUri)}/>
-
-        <canvas className="canvas" ref={this.myRef} />
+      <div>
+        <div className="camera">
+          <Camera
+            onTakePhoto = {(dataUri) => this.handleTakePhoto(dataUri)}/>
+        </div>
+        <div className="canvas-edge" >
+          <canvas className="canvas1" ref={this.myRef1} />
+          <canvas className="canvas2" ref={this.myRef2} />
+        </div>
       </div>
     )
   }

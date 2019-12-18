@@ -258,6 +258,23 @@ span {
 }
 
 
+.canvas-edge {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.canvas1 {
+  width: 300px;
+  border: 1px solid #000;
+}
+
+.canvas2 {
+  width: 300px;
+  border: 1px solid #000;
+}
+
+
 .footer {
   margin: 0 auto;
   width: 960px;
