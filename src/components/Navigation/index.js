@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import colourfill from "../../images/colourFill.png";
 import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 import {Nav, Dropdown} from 'react-bootstrap';

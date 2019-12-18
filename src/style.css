@@ -269,4 +269,5 @@ span {
   justify-content: space-around;
   color: #a8327b;
   text-align: center;
+  z-index: 1;
 }

@@ -45,23 +45,21 @@ class Activity extends Component {
       .doGetPicture( key, async (result) => {
 
       this.setState({picture: result});
-////////put an if for when image.contentUrl doesnt exist
-      this.img = new Image();
-      //Get the source for image
-      console.log("pic url", result.contentUrl);
 
-      const urlData  = await this.props.firebase.doGetImageData(result.contentUrl);
-      console.log('urlData', urlData);
-      
-      this.img.src = urlData;
-      // this.img.src = image;
-      // this.img.src = "https://colourfill.firebaseapp.com/dataImage";
+      if (result.contentUrl.length > 0) {
+        this.img = new Image();
+        //Get the source for image
+        const urlData  = await this.props.firebase.doGetImageData(result.contentUrl);
 
-      this.img.onload = () => {
-        console.log("image loading");
+        this.img.src = window.URL.createObjectURL(urlData);
 
-        this.setState({imageLoaded: true});
-      };
+        this.img.onload = () => {
+          this.setState({imageLoaded: true});
+        };
+      }
+      else {
+        window.alert("This image does not exist.");
+      }
 
     });
   }
@@ -92,7 +90,6 @@ class Activity extends Component {
   handleColor(color) {
     this.setState({currentColor: color});
   }
-
 
   convertHexToRGB(hex) {
     //http://www.javascripter.net/faq/hextorgb.htm

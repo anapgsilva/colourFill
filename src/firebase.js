@@ -105,9 +105,13 @@ class Firebase {
     // return result.data.url;
     // });
 
-    return fetch(`/dataImage?url=${url}`).then( res => res.blob());
+    return fetch("/dataImage", {
+      method: 'post',
+      body: url,
+      headers: {'Content-Type': 'text/plain'}
+    }).then( res => res.blob());
   }
-  
+
 }
 
 
