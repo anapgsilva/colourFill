@@ -4,6 +4,8 @@ body {
   padding-top: 20px;
   min-height: 100vh;
   margin-bottom: 0;
+  position: relative;
+  overflow: auto;;
 }
 
 #nav {
@@ -257,17 +259,16 @@ span {
 
 
 .footer {
+  margin: 0 auto;
   width: 960px;
-  height: 70px;
+  height: 60px;
   background-color: #fff;
-  position: fixed;
+  position: relative;
   border-top: 2px solid #a8327b;
   bottom: 0;
-  padding-top: 25px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   color: #a8327b;
-  text-align: center;
   z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

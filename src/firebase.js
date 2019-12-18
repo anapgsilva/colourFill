@@ -98,13 +98,7 @@ class Firebase {
   }
 
   doGetImageData  = url => {
-    // const dataImage = firebase.functions().httpsCallable('dataImage');
-    // dataImage({url: url}).then( (result) => {
-    // // Read result of the Cloud Function.
-    // console.log("function result");
-    // return result.data.url;
-    // });
-
+    // https://github.com/bitinn/node-fetch#post-with-json
     return fetch("/dataImage", {
       method: 'post',
       body: url,
