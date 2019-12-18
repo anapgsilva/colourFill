@@ -12,7 +12,7 @@ import * as ROUTES from '../../constants/routes';
 const Navigation = () => (
   <Nav id="nav">
     <Link to={ROUTES.HOME}>
-      <img src={colourfill} width="200" alt="Home" className="navbar-brand" />
+      <h1 className="navbar-brand"><span>colourFill</span></h1>
     </Link>
     <AuthUserContext.Consumer>
       {authUser => authUser ? <NavigationAuthWithFirebase /> : <NavigationNonAuth />}

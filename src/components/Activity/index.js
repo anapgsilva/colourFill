@@ -3,7 +3,6 @@ import { withAuthorization } from '../Session';
 import Palette from './palette.js';
 // import image from '../../images/elsa.jpg';
 import {Button} from 'react-bootstrap';
-import * as ROUTES from '../../constants/routes';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 
@@ -21,7 +20,6 @@ class Activity extends Component {
       imageLoaded: false,
       picture: {},
       currentColor: "",
-      events: []
     }
 
     this.getPicture = this.getPicture.bind(this);
@@ -32,61 +30,67 @@ class Activity extends Component {
     this.removeEvent = this.removeEvent.bind(this);
     this.savePicture = this.savePicture.bind(this);
     this.deletePicture = this.deletePicture.bind(this);
+    this.handleName = this.handleName.bind(this);
   }
 
   componentDidMount() {
     //get image from DB using key
     const key = this.props.match.params.id;
     this.getPicture(key);
-
-    this.img = new Image();
-    this.img.src = this.state.picture.contentUrl;
-    console.log(this.img.src);
-    this.img.onload = () => {
-        this.setState({imageLoaded: true});
-    };
   }
 
   async getPicture(key) {
     //request to firebase to do patch picture
     await this.props.firebase
-      .doGetPicture( key, (picture) => {
-      this.setState({picture});
+      .doGetPicture( key, async (result) => {
+
+      this.setState({picture: result});
+////////put an if for when image.contentUrl doesnt exist
+      this.img = new Image();
+      //Get the source for image
+      console.log("pic url", result.contentUrl);
+
+      const urlData  = await this.props.firebase.doGetImageData(result.contentUrl);
+      console.log('urlData', urlData);
+      
+      this.img.src = urlData;
+      // this.img.src = image;
+      // this.img.src = "https://colourfill.firebaseapp.com/dataImage";
+
+      this.img.onload = () => {
+        console.log("image loading");
+
+        this.setState({imageLoaded: true});
+      };
 
     });
   }
 
+
   async savePicture() {
     //get id from url
     const key = this.props.match.params.id;
+    const picture = this.state.picture;
     //request to firebase to do patch picture
-    await this.props.firebase.doSavePicture(key, this.state.events, (result) => {
-      console.log(result);
+    await this.props.firebase.doSavePicture(key, picture, (result) => {
 
       if (result) {
         window.alert('Picture saved successfully!', 'success');
-      } else {
-        window.alert("Put here the error from DB");
       }
     })
-
   }
 
   async deletePicture() {
     //get id from url
     const key = this.props.match.params.id;
     //request to firebase to do delete picture
-    const result = await this.props.firebase.doDeletePicture(key)
-
-    if(result) {
-      this.props.history.push(ROUTES.HOME);
-    } else {
-      window.alert("Put here the message from DB");
-    }
+    await this.props.firebase.doDeletePicture(key, () => {
+      this.props.history.push('/');
+    });
   }
 
-  handleColor(colour) {
-    this.setState({currentColor: colour});
+  handleColor(color) {
+    this.setState({currentColor: color});
   }
 
 
@@ -119,7 +123,16 @@ class Activity extends Component {
 
     let newEvent = {type: "fill", color, x, y};
 
-    this.setState({ events: [...this.state.events, newEvent] });
+    let {events, ...rest} = this.state.picture;
+
+    if (events === undefined) {
+      events = [];
+    }
+
+    this.setState({ picture: {
+      events: [...events, newEvent],
+      ...rest
+    }});
   }
 
 
@@ -145,13 +158,11 @@ class Activity extends Component {
     }
 
     const colorsMatch = (a, b, rangeSq) => {
-      if (a !== [ 0, 0, 0, 0]) {
         const dr = a[0] - b[0];
         const dg = a[1] - b[1];
         const db = a[2] - b[2];
         const da = a[3] - b[3];
         return dr * dr + dg * dg + db * db + da * da < rangeSq;
-      }
     }
 
 
@@ -164,8 +175,11 @@ class Activity extends Component {
     // get the before pixel color we're filling
     const targetColor = getPixel(imageData, x, y);
 
+    if (colorsMatch([0,0,0,255], targetColor, 128)) {
+      return;
+    }
     // check we are actually filling a different color
-    if (!colorsMatch(targetColor, fillColor)) {
+    else if (!colorsMatch(targetColor, fillColor)) {
 
       const rangeSq = range * range;
       const pixelsToCheck = [x, y];
@@ -195,9 +209,24 @@ class Activity extends Component {
   }
 
   removeEvent() {
-    let events = this.state.events;
+    const {events, ...rest} = this.state.picture;
     events.pop();
-    this.setState({events})
+
+    this.setState({picture: {
+      events: events,
+      ...rest
+      }
+    });
+  }
+
+  handleName(event) {
+    const {name, ...rest} = this.state.picture;
+
+    this.setState({picture: {
+        name: event.target.value,
+        ...rest
+      }
+    });
   }
 
   render() {
@@ -211,12 +240,13 @@ class Activity extends Component {
       //copy image pixels to the canvas
       this.ctx.drawImage(this.img, 0, 0);
 
-      this.state.events.forEach( e => {
-        if (e.type === 'fill') {
-          this.floodFill(this.ctx, e.x, e.y, e.color, 128);
-        }
-      });
-
+      if (this.state.picture.events) {
+        this.state.picture.events.forEach( e => {
+          if (e.type === 'fill') {
+            this.floodFill(this.ctx, e.x, e.y, e.color, 128);
+          }
+        });
+      }
     }
 
     return (
@@ -227,11 +257,16 @@ class Activity extends Component {
 
         <div className="delete-save">
           <div className="delete-pic" onClick={this.deletePicture}>
-            Delete
+            Delete Picture
           </div>
-          <Button className="save-pic" onClick={this.savePicture}>
-            Save
-          </Button>
+          <label className="save-pic">
+          Picture Name:
+            <input type="text" placeholder={this.state.picture.name} onChange={this.handleName} />
+            <Button onClick={this.savePicture}>
+              Save
+            </Button>
+          </label>
+
         </div>
       </div>
     )

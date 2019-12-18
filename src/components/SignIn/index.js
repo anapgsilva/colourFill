@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
   <div className="centred-page">
-    <h1>Welcome to colourFill</h1>
+    <h1>Welcome to <span>colourFill</span></h1>
     <SignInForm />
     <PasswordForgetLink />
     <SignUpLink />

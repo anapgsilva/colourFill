@@ -11,6 +11,8 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import ResultsPage from '../Results';
 import ActivityPage from '../Activity';
+import CameraPage from '../Camera';
+import Footer from '../Footer';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -24,7 +26,6 @@ const Routes = () => (
     <Router>
       <div>
         <Navigation />
-        <hr />
         <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
         <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
         <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
@@ -32,7 +33,8 @@ const Routes = () => (
         <Route exact path={ROUTES.HOME} component={HomePage} />
         <Route path={ROUTES.RESULTS} component={ResultsPage} />
         <Route path={ROUTES.ACTIVITY} component={ActivityPage} />
-
+        <Route path={ROUTES.CAMERA} component={CameraPage} />
+        <Footer />
 
       </div>
     </Router>

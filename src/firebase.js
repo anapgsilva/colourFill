@@ -1,28 +1,27 @@
 // import * as firebase from 'firebase';
+import {FIREBASE_API_KEY, FIREBASE_AUTHDOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_MESSAGING_SENDER_ID, FIREBASE_APP_ID, FIREBASE_MEASUREMENT_ID} from './.env.js';
 
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/functions';
 
 const firebase = require('firebase/app');
 
-
 const config = {
-  apiKey: "AIzaSyDxBjtBDgf1GWDTAUKxQgiCmthbpHQ5ubg",
-  authDomain: "colourfill.firebaseapp.com",
-  databaseURL: "https://colourfill.firebaseio.com",
-  projectId: "colourfill",
-  storageBucket: "colourfill.appspot.com",
-  messagingSenderId: "1067746591585",
-  appId: "1:1067746591585:web:713c10a0713570e0ebfb20",
-  measurementId: "G-43B5WH1R9B"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTHDOMAIN,
+  databaseURL: FIREBASE_DATABASE_URL,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
+  measurementId: FIREBASE_MEASUREMENT_ID
 }
-
-firebase.initializeApp(config);
 
 
 class Firebase {
   constructor() {
-    // firebase.initializeApp(config);
+    firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.db = firebase.database();
 
@@ -47,7 +46,7 @@ class Firebase {
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
 
-  doCreatePicture = (picture) => {
+  doCreatePicture = (picture, callback) => {
     const uid = this.auth.currentUser.uid;
     const pictureData = picture;
     const newPictureKey = this.db.ref().child('pictures').push().key;
@@ -57,19 +56,16 @@ class Firebase {
     updates['/user-pictures/'+uid+'/'+newPictureKey] = pictureData;
 
     this.db.ref().update(updates);
+    callback(newPictureKey);
   }
 
-  doSavePicture = (key, events, callback) => {
+  doSavePicture = (key, picture, callback) => {
     const uid = this.auth.currentUser.uid;
     console.log("uid", uid);
 
-    const pictureData = {
-      events: events
-    }
-
     const updates = {};
-    updates['/pictures/'+key] = pictureData;
-    updates['/user-pictures/'+uid+'/'+key] = pictureData;
+    updates['/pictures/'+key] = picture;
+    updates['/user-pictures/'+uid+'/'+key] = picture;
     const result = this.db.ref().update(updates);
     callback(result);
   }
@@ -77,18 +73,16 @@ class Firebase {
   doDeletePicture = (key, callback) => {
     const uid = this.auth.currentUser.uid;
 
-    const remove = {};
-    remove('/pictures/'+key);
-    remove('/user-pictures/'+uid+'/'+key);
-    const result = this.db.ref().remove(remove);
-    callback(result);
+    this.db.ref('/pictures/'+key).remove();
+    this.db.ref('/user-pictures/'+uid+'/'+key).remove();
+    callback();
   }
 
   doGetPicture = (key, callback) => {
     const uid = this.auth.currentUser.uid;
 
     const picture = this.db.ref('/user-pictures/'+uid+'/'+key);
-    picture.on('value', function(snapshot) {
+    picture.once('value', function(snapshot) {
       let result = snapshot.val();
       callback(result);
     })
@@ -102,6 +96,18 @@ class Firebase {
       callback(result);
     })
   }
+
+  doGetImageData  = url => {
+    // const dataImage = firebase.functions().httpsCallable('dataImage');
+    // dataImage({url: url}).then( (result) => {
+    // // Read result of the Cloud Function.
+    // console.log("function result");
+    // return result.data.url;
+    // });
+
+    return fetch(`/dataImage?url=${url}`).then( res => res.blob());
+  }
+  
 }
 
 

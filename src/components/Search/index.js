@@ -12,7 +12,7 @@ const Search = (props) => {
 
   return (
     <div className="search">
-      <h1>Search for pictures</h1>
+      <h5>Search For A Themed Picture</h5>
       <Form onSubmit={findPictures}>
         <label>
           <input type="search" placeholder="Choose a picture theme" value={query} onChange={e => setQuery(e.target.value)} required/>

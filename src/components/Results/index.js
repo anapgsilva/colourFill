@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import GetPictures from '../utils.js';
-import {Link} from 'react-router-dom';
 import Search from '../Search';
-import * as ROUTES from '../../constants/routes';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 
@@ -35,7 +33,11 @@ class Results extends Component {
 
   async showImage(picture) {
     //save p object in database
-    await this.props.firebase.doCreatePicture(picture);
+    const name = this.state.query;
+    picture.name = name;
+    await this.props.firebase.doCreatePicture(picture, (key) => {
+      this.props.history.push(`/activity/${key}`);
+    });
   }
 
   render() {
@@ -44,9 +46,7 @@ class Results extends Component {
     if (this.state.imagesLoaded) {
       images = this.state.pictures.map( p => {
         return (
-          <Link to={ROUTES.ACTIVITY} key={p.imageId}>
-            <img src={p.thumbnailUrl} width="150px" alt={p.name} onClick={() => this.showImage(p)} />
-          </Link>
+          <img src={p.thumbnailUrl} alt={p.name} onClick={() => this.showImage(p)} key={p.imageId} />
         )
       })
     } else {

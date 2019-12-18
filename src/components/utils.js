@@ -1,5 +1,5 @@
 // 'use strict';
-import MICROSOFT_API_KEY from '../.env.js';
+import {MICROSOFT_API_KEY} from '../.env.js';
 
 
 const ImageSearchAPIClient = require('azure-cognitiveservices-imagesearch');

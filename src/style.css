@@ -1,15 +1,22 @@
 body {
   max-width: 960px;
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 20px;
+  min-height: 100vh;
+  margin-bottom: 0;
 }
 
 #nav {
-  height: 70px;
+  height: 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #a8327b;
+}
+
+#nav span {
+  font-size: 50px;
 }
 
 #dropdownMenuButton::after {
@@ -26,7 +33,7 @@ body {
 }
 
 #usericon {
-  color: purple;
+  color: #a8327b;
 }
 
 .dropdown-menu {
@@ -44,7 +51,7 @@ body {
   display: flex;
   margin-right: 10px;
   font-size: 20px;
-  color: purple;
+  color: #a8327b;
 }
 
 .loggedin a:hover {
@@ -56,10 +63,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 30px;
 }
 
 h1 {
   margin-bottom: 20px;
+}
+
+span {
+  font-family: 'Kaushan Script', cursive;
+  font-style: italic;
+  color: #a8327b;
 }
 
 .centred-page form {
@@ -69,9 +83,60 @@ h1 {
   margin-bottom: 20px;
 }
 
+.selection h1 {
+  margin-top: 30px;
+}
+
+.image-source {
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 30px;
+}
+
 .search form {
   display: flex;
-  justify-content: space-around flex-start;
+}
+
+.search input {
+  min-width: 300px;
+}
+
+.selfie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selfie img {
+  width: 50px;
+}
+
+.pic-name {
+  width: 200px;
+  overflow: hidden;
+}
+
+.results {
+  margin-top: 30px;
+}
+
+.image-results {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.image-results img {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  max-width: 180px;
+  height: auto;
+  margin: 10px 10px;
+
 }
 
 
@@ -86,6 +151,8 @@ h1 {
 .canvas {
   margin: 0 auto;
   padding-bottom: 30px;
+  max-width: 95%;
+  max-height: 95%;
 }
 
 
@@ -173,8 +240,33 @@ h1 {
 
 .save-pic {
   display: flex;
+  align-items: center;
   margin-right: 100px;
   margin-bottom: 30px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.save-pic input{
+  margin-left: 10px;
+}
+
+.camera {
+  margin-top: 30px;
+}
+
+
+.footer {
+  width: 960px;
+  height: 70px;
+  background-color: #fff;
+  position: fixed;
+  border-top: 2px solid #a8327b;
+  bottom: 0;
+  padding-top: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: #a8327b;
+  text-align: center;
 }
