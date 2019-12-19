@@ -21,10 +21,8 @@ class Results extends Component {
     const {query} = this.props.match.params;
     this.setState({query});
 
-    const finalQuery = query + " black and white";
-
     // do DB request for query
-    GetPictures(finalQuery).then( (result) => {
+    GetPictures(query).then( (result) => {
       //save state pics
       this.setState({pictures: result.value, imagesLoaded: true});
     });
@@ -55,8 +53,10 @@ class Results extends Component {
 
     return (
       <div>
-        <Search />
-        <hr />
+        <div className="selection" >
+          <Search />
+        </div>
+        
         <div className="results">
           <h1>Choose A {this.props.match.params.query.toUpperCase()} Picture to Colour</h1>
           <div className="image-results">

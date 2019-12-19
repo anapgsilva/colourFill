@@ -18,8 +18,8 @@ const sendQuery = async (query) => {
 };
 
 const GetPictures = (query) => {
-
-  return sendQuery(query).then(imageResults => {
+  const finalQuery = query + " black and white 400px";
+  return sendQuery(finalQuery).then(imageResults => {
     if (imageResults == null) {
     console.log("No image results were found.");
     }

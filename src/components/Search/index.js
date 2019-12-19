@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 const Search = (props) => {
 
-  const [query, setQuery] = useState("frozen");
+  const [query, setQuery] = useState("");
 
   const findPictures = () => {
     props.history.push(`/search/${query}`)
