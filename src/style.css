@@ -88,6 +88,10 @@ span {
 .selection {
   background-color: #ccc;
   padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .image-source {
@@ -158,9 +162,15 @@ span {
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .links img {
+  width: 40px;
+  cursor: pointer;
+}
+
+.selection img {
   width: 40px;
   cursor: pointer;
 }

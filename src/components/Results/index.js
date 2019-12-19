@@ -3,6 +3,10 @@ import GetPictures from '../utils.js';
 import Search from '../Search';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
+import camera from '../../images/camera.png';
+
 
 
 class Results extends Component {
@@ -55,8 +59,11 @@ class Results extends Component {
       <div>
         <div className="selection" >
           <Search />
+          <Link to={ROUTES.CAMERA}>
+            <img src={camera} alt="camera icon"/>
+          </Link>
         </div>
-        
+
         <div className="results">
           <h1>Choose A {this.props.match.params.query.toUpperCase()} Picture to Colour</h1>
           <div className="image-results">
