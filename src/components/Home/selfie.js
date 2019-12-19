@@ -8,7 +8,7 @@ const Selfie = () => {
 
   return (
     <div className="selfie">
-      <h5>Take a Selfie</h5>
+      <h5>Take Your Own Picture</h5>
       <Link to={ROUTES.CAMERA}>
         <img src={camera} size="0.5" alt="camera icon"/>
       </Link>

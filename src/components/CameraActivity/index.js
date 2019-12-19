@@ -3,12 +3,8 @@ import { withAuthorization } from '../Session';
 import Palette from './palette.js';
 // import image from '../../images/elsa.jpg';
 import {Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-
 
 
 class Activity extends Component {
@@ -35,7 +31,6 @@ class Activity extends Component {
     this.savePicture = this.savePicture.bind(this);
     this.deletePicture = this.deletePicture.bind(this);
     this.handleName = this.handleName.bind(this);
-    // this.drawImageScaled = this.drawImageScaled.bind(this);
   }
 
   componentDidMount() {
@@ -231,33 +226,16 @@ class Activity extends Component {
     });
   }
 
-  // drawImageScaled(img, ctx) {
-  //   const canvas = ctx.canvas ;
-  //   const hRatio = canvas.width  / img.width;
-  //   const vRatio =  canvas.height / img.height;
-  //   const ratio  = Math.min ( hRatio, vRatio );
-  //   const centerShift_x = ( canvas.width - img.width*ratio ) / 2;
-  //   const centerShift_y = ( canvas.height - img.height*ratio ) / 2;
-  //   ctx.clearRect(0,0,canvas.width, canvas.height);
-  //
-  //   //copy image pixels to the canvas
-  //   ctx.drawImage(img,0,0, img.width, img.height,
-  //    centerShift_x, centerShift_y, img.width*ratio, img.height*ratio);
-  //
-  //   return ctx;
-  // }
-
   render() {
     if (this.state.imageLoaded) {
       this.canvas = this.myRef.current;
       this.canvas.width = this.img.width;
       this.canvas.height = this.img.height;
+
       //get the context API
       this.ctx = this.canvas.getContext("2d");
       //copy image pixels to the canvas
       this.ctx.drawImage(this.img, 0, 0);
-      // this.ctx = this.drawImageScaled(this.img, this.ctx);
-
 
       if (this.state.picture.events) {
         this.state.picture.events.forEach( e => {
@@ -270,7 +248,6 @@ class Activity extends Component {
 
     return (
       <div id='ActivityDIV'>
-        <Link to={ROUTES.HOME}>Back to My Colouring Pictures</Link>
         <Palette onSelectColor={this.handleColor} onUndoMove={this.removeEvent} />
 
         <canvas className="canvas" ref={this.myRef} onClick={this.handleFilling} />
@@ -280,9 +257,9 @@ class Activity extends Component {
             Delete Picture
           </div>
           <label className="save-pic">
-          Picture Name:
+            Picture Name:
             <input type="text" placeholder={this.state.picture.name} onChange={this.handleName} />
-            <Button type="text" onClick={this.savePicture}>
+            <Button onClick={this.savePicture}>
               Save
             </Button>
           </label>
@@ -297,52 +274,7 @@ class Activity extends Component {
 
 const condition = authUser => !!authUser;
 
-const ActivityPage = compose(withFirebase)(Activity);
+const CameraActivityPage = compose(withFirebase)(CameraActivity);
 
 
-export default withAuthorization(condition)(ActivityPage);
-
-
-
-// PAINT BRUSH
-// const brushFill = function(x, y, color) {
-//
-//   //call the pixel data
-//   let imageData = this.ctx.getImageData(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-//   let pixels = imageData.data;
-//
-//   const pxIndex = ((x-1) + (y-1)*this.canvas.width)*4;
-//
-//   pixels[pxIndex] = color[0];
-//   pixels[pxIndex+1] = color[1];
-//   pixels[pxIndex+2] = color[2];
-//   pixels[pxIndex+3] = color[3];
-//
-//   let offset = 50;
-//
-//   for (let i = x-offset; i < x+offset; i++) {
-//     for (let j = y-offset; j < y+offset; j++) {
-//
-//       this.ctx.beginPath();
-//       let newX = 25 + j * 50; // x coordinate
-//       let newY = 25 + i * 50; // y coordinate
-//       let radius = 20; // Arc radius
-//       let startAngle = 0; // Starting point on circle
-//       let endAngle = 2* Math.PI; // End point on circle
-//       // let anticlockwise = i % 2 !== 0; // clockwise or anticlockwise
-//
-//       this.ctx.arc(newX, newY, radius, startAngle, endAngle);
-//
-//       // this.ctx.fill();
-//
-//       //
-//       if (i > 1) {
-//         this.ctx.fill();
-//       } else {
-//         this.ctx.stroke();
-//       }
-//     }
-//   }
-//
-//   this.ctx.putImageData(imageData, 0, 0);
-// }
+export default withAuthorization(condition)(CameraActivityPage);

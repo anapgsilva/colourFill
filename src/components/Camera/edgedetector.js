@@ -115,17 +115,17 @@ function EdgeDetector() {
       this.ctx.beginPath();
       this.ctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
       this.ctx.closePath();
-      this.rawctx.fill();
-      this.ctx.stroke();
+      this.ctx.fill();
+      // this.ctx.stroke();
 
       // Copy onto the raw canvas
       // this is probably the most useful application of this,
       // as you would then have raw data of the edges that can be used.
       this.rawctx.beginPath();
       this.rawctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
-      this.ctx.closePath();
-      // this.rawctx.fill();
-      this.ctx.stroke();
+      this.rawctx.closePath();
+      this.rawctx.fill();
+      // this.rawctx.stroke();
 
   };
 }
