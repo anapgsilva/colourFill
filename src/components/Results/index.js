@@ -57,7 +57,7 @@ class Results extends Component {
 
     return (
       <div>
-        <div className="selection" >
+        <div className="home image-source" >
           <Search />
           <Link to={ROUTES.CAMERA}>
             <img src={camera} alt="camera icon"/>

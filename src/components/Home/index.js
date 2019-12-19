@@ -8,8 +8,9 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="selection">
+      <div className="home">
         <h1>Choose Your Picture To Colour</h1>
+
         <div className="image-source">
           <Search />
           <h5>OR</h5>
