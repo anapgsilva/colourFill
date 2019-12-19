@@ -7,14 +7,15 @@ import Selfie from './selfie.js';
 const HomePage = () => {
 
   return (
-    <div className="selection">
-      <h1>Choose Your Picture To Colour</h1>
-      <div className="image-source">
-        <Search />
-        <h5>OR</h5>
-        <Selfie />
+    <div>
+      <div className="selection">
+        <h1>Choose Your Picture To Colour</h1>
+        <div className="image-source">
+          <Search />
+          <h5>OR</h5>
+          <Selfie />
+        </div>
       </div>
-      <hr />
       <Gallery />
     </div>
   )

@@ -50,7 +50,7 @@ class Gallery extends Component {
           return (
             <div key={key}>
               <h4 className="pic-name">{pic.name}</h4>
-              <img src={pic.thumbnailUrl} alt={pic.name} onClick={() => this.showPicture(key)} />
+              <img src={pic.thumbnailUrl? pic.thumbnailUrl : pic.src} alt={pic.name} onClick={() => this.showPicture(key)} />
             </div>
           )
         });

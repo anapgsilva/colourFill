@@ -17,6 +17,7 @@ function EdgeDetector() {
   this.pixelData = undefined;
   this.threshold = undefined;
   this.pointerColor = 'rgba(255,0,0,1)';
+  this.edgesrc = undefined;
 
 
   this.init = function(myRef1, myRef2){
@@ -111,12 +112,12 @@ function EdgeDetector() {
     }
   };
 
+
   this.plotPoint = function(x,y){
       this.ctx.beginPath();
       this.ctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
       this.ctx.closePath();
       this.ctx.fill();
-      // this.ctx.stroke();
 
       // Copy onto the raw canvas
       // this is probably the most useful application of this,
@@ -125,8 +126,6 @@ function EdgeDetector() {
       this.rawctx.arc(x, y, 0.5, 0, 2 * Math.PI, false);
       this.rawctx.closePath();
       this.rawctx.fill();
-      // this.rawctx.stroke();
-
   };
 }
 

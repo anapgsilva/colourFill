@@ -61,7 +61,6 @@ class Firebase {
 
   doSavePicture = (key, picture, callback) => {
     const uid = this.auth.currentUser.uid;
-    console.log("uid", uid);
 
     const updates = {};
     updates['/pictures/'+key] = picture;

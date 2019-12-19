@@ -10,7 +10,7 @@ const Selfie = () => {
     <div className="selfie">
       <h5>Take Your Own Picture</h5>
       <Link to={ROUTES.CAMERA}>
-        <img src={camera} size="0.5" alt="camera icon"/>
+        <img src={camera} alt="camera icon"/>
       </Link>
     </div>
   )

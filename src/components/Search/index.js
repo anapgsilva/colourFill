@@ -17,10 +17,11 @@ const Search = (props) => {
         <label>
           <input type="search" placeholder="Choose a picture theme" value={query} onChange={e => setQuery(e.target.value)} required/>
         </label>
-
+        <label>
         <Button type="submit" value="search">
           Get Pictures
         </Button>
+        </label>
       </Form>
     </div>
   )

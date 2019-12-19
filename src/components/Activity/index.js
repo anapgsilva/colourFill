@@ -4,7 +4,7 @@ import Palette from './palette.js';
 // import image from '../../images/elsa.jpg';
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import camera from '../../images/camera.png';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
@@ -12,9 +12,6 @@ import * as ROUTES from '../../constants/routes';
 
 
 class Activity extends Component {
-  //add save button - saves url and events
-  //have choice of fill or paint
-
   constructor(props){
     super(props);
     // Refs info from: https://reactjs.org/docs/refs-and-the-dom.html
@@ -51,12 +48,20 @@ class Activity extends Component {
 
       this.setState({picture: result});
 
-      if (result.contentUrl.length > 0) {
+      if (result.contentUrl && result.contentUrl.length > 0) {
         this.img = new Image();
         //Get the source for image
         const urlData  = await this.props.firebase.doGetImageData(result.contentUrl);
 
         this.img.src = window.URL.createObjectURL(urlData);
+
+        this.img.onload = () => {
+          this.setState({imageLoaded: true});
+        };
+      }
+      else if (result.type === 'photo') { //if camera photo
+        this.img = new Image();
+        this.img.src = result.src;
 
         this.img.onload = () => {
           this.setState({imageLoaded: true});
@@ -249,15 +254,21 @@ class Activity extends Component {
 
   render() {
     if (this.state.imageLoaded) {
+
       this.canvas = this.myRef.current;
       this.canvas.width = this.img.width;
       this.canvas.height = this.img.height;
+
+      if(this.state.picture.ctx){
+        this.ctx = this.state.picture.ctx;
+      }
+      else {
       //get the context API
       this.ctx = this.canvas.getContext("2d");
       //copy image pixels to the canvas
       this.ctx.drawImage(this.img, 0, 0);
       // this.ctx = this.drawImageScaled(this.img, this.ctx);
-
+      }
 
       if (this.state.picture.events) {
         this.state.picture.events.forEach( e => {
@@ -270,7 +281,13 @@ class Activity extends Component {
 
     return (
       <div id='ActivityDIV'>
-        <Link to={ROUTES.HOME}>Back to My Colouring Pictures</Link>
+        <div className="links">
+          <Link to={ROUTES.HOME}>Back to My Colouring Pictures</Link>
+          <Link to={ROUTES.CAMERA}>
+            <img src={camera} alt="camera icon"/>
+          </Link>
+        </div>
+
         <Palette onSelectColor={this.handleColor} onUndoMove={this.removeEvent} />
 
         <canvas className="canvas" ref={this.myRef} onClick={this.handleFilling} />
