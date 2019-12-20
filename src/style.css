@@ -257,14 +257,15 @@ span {
 .delete-save {
   display: flex;
   margin: 0 auto;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
   width: 100%;
   align-items: center;
 }
 
 .delete-pic {
   display: flex;
-  margin-left: 50px;
+  /* margin-left: 50px; */
   margin-bottom: 30px;
   font-size: 20px;
 }
@@ -277,7 +278,7 @@ span {
 .save-pic {
   display: flex;
   align-items: center;
-  margin-right: 50px;
+  /* margin-right: 50px; */
   margin-bottom: 30px;
   font-size: 20px;
   font-weight: bold;

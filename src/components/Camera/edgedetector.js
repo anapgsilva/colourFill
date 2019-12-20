@@ -39,9 +39,7 @@ function EdgeDetector() {
     return this.copyImage();
   };
 
-  // this.findEdges = function(){
-  //   this.copyImage();
-  // };
+
 
   this.copyImage = function(){
     this.rawctx.clearRect(0,0,this.ctxDimensions.width,this.ctxDimensions.height);
@@ -83,7 +81,6 @@ function EdgeDetector() {
             bottom = this.pixelData.data[index+(this.ctxDimensions.width*4)];
 
             //Compare it all.
-            // (Currently, just the left pixel)
             if(pixel>left+this.threshold){
                 this.plotPoint(x,y);
             }
