@@ -88,8 +88,10 @@ class Firebase {
   }
 
   doGetPictures = (callback) => {
+    const uid = this.auth.currentUser.uid;
+
     let result = [];
-    const pictures = this.db.ref('/pictures');
+    const pictures = this.db.ref('/user-pictures/'+uid);
     pictures.on('value', function(snapshot){
       result.push(snapshot.val());
       callback(result);
