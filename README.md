@@ -13,28 +13,28 @@ Each colouring event is saved into each picture, so the user can always go back 
 ## Log In
 Start by signing up for an account and then login.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/signin.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/signin.png" width="500">
 
 ## Homepage
 User lands on their homepage where pictures can be searched and current pictures are displayed.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/home.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/home.png" width="500">
 
 ## Search for pictures
 Pictures can be searched by key words. This will search the Bing Image Search Api for black and white pictures of the query.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/searchbar.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/searchbar.png" width="500">
 
 ## Take pictures with the camera
 Another option is to take pictures using the camera. Once picture is taken, the final black and white picture is shown. If the user is happy about it, this can be used for colouring, otherwise user can take another camera picture.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/camerapage.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/camerapage.png" width="500">
 
 ## Picture colouring
 Selected pictures are then loaded onto a canvas where the user can select a colour and click onto the shape that wants to be coloured. User has the choice to revert the colouring events.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/beforecolour.png" width="500">
-<img src="https://anapgsilva.github.io/colourFill/src/images/aftercolour.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/beforecolour.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/tree/master/src/images/aftercolour.png" width="500">
 
 
 This application was built using React and Firebase was used for hosting, back server, real-time database and functions.
@@ -42,7 +42,7 @@ This application was built using React and Firebase was used for hosting, back s
 Functions Firebase server was used to overcome the CORS problem of manipulating an image that was coming from the Bing website.
 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ### `npm install react-bootstrap bootstrap`
 
 User icon was adapted from the fonts awesome website (https://fontawesome.com/).
