@@ -18,23 +18,23 @@ Start by signing up for an account and then login.
 ## Homepage
 User lands on their homepage where pictures can be searched and current pictures are displayed.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/home.png" width="500">
+<img src="https://github.com/anapgsilva/colourFill/blob/master/public/home.png" width="500">
 
 ## Search for pictures
 Pictures can be searched by key words. This will search the Bing Image Search Api for black and white pictures of the query.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/searchbar.png" width="500">
+<img src="https://github.com/anapgsilva/colourFill/blob/master/public/searchbar.png" width="500">
 
 ## Take pictures with the camera
 Another option is to take pictures using the camera. Once picture is taken, the final black and white picture is shown. If the user is happy about it, this can be used for colouring, otherwise user can take another camera picture.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/camerapage.png" width="500">
+<img src="https://github.com/anapgsilva/colourFill/blob/master/public/camerapage.png" width="500">
 
 ## Picture colouring
 Selected pictures are then loaded onto a canvas where the user can select a colour and click onto the shape that wants to be coloured. User has the choice to revert the colouring events.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/beforecolour.png" width="500">
-<img src="https://anapgsilva.github.io/colourFill/src/images/aftercolour.png" width="500">
+<img src="https://github.com/anapgsilva/colourFill/blob/master/public/beforecolour.png" width="500">
+<img src="https://github.com/anapgsilva/colourFill/blob/master/public/aftercolour.png" width="500">
 
 
 This application was built using React and Firebase was used for hosting, back server, real-time database and functions.
