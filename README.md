@@ -13,7 +13,7 @@ Each colouring event is saved into each picture, so the user can always go back 
 ## Log In
 Start by signing up for an account and then login.
 
-<img src="https://anapgsilva.github.io/colourFill/src/images/signin.png" width="500">
+<img src="https://anapgsilva.github.io/colourFill/public/signin.png" width="500">
 
 ## Homepage
 User lands on their homepage where pictures can be searched and current pictures are displayed.
