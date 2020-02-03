@@ -86,7 +86,7 @@ class Firebase {
       callback(result);
     })
   }
-
+  //Get collection of pics for user
   doGetPictures = (callback) => {
     const uid = this.auth.currentUser.uid;
 
@@ -97,7 +97,7 @@ class Firebase {
       callback(result);
     })
   }
-
+  //Get image data for a pic from url
   doGetImageData  = url => {
     // https://github.com/bitinn/node-fetch#post-with-json
     return fetch("/dataImage", {
