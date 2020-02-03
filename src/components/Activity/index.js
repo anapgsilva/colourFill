@@ -182,7 +182,7 @@ class Activity extends Component {
     // get the before pixel color we're filling
     const targetColor = getPixel(imageData, x, y);
 
-    if (colorsMatch([0,0,0,255], targetColor, 1500)) {
+    if (colorsMatch([0,0,0,255], targetColor, 2000)) {
       return;
     }
     // check we are actually filling a different color
