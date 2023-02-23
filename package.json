@@ -15,7 +15,7 @@
     "bootstrap": "^4.4.1",
     "firebase": "^7.15.5",
     "kind-of": "^6.0.3",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "ms-rest-azure": "^3.0.0",
     "node-forge": "^0.10.0",
     "parse": "^2.10.0",
